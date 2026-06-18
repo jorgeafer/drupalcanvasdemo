@@ -1,0 +1,76 @@
+{#
+  Tibidabo Footer SDC
+  Props: cta_heading, cta_body, cta_url, link_columns[], social_links[], legal_links[], copyright, address, site_name
+#}
+<footer class="tibi-footer" role="contentinfo">
+
+  {# CTA band #}
+  <div class="tibi-footer__cta">
+    <div class="tibi-container--wide">
+      <h2 class="tibi-footer__cta-heading">{{ cta_heading|default('¿Listo para venir?') }}</h2>
+      <p  class="tibi-footer__cta-body">{{ cta_body|default('Compra tus entradas ahora y asegura tu plaza') }}</p>
+      <a href="{{ cta_url|default('#tickets') }}" class="tibi-btn tibi-btn--secondary tibi-btn--lg tibi-footer__cta-btn">
+        Comprar entrades
+      </a>
+    </div>
+  </div>
+
+  <div class="tibi-footer__main tibi-container--wide">
+
+    {# Link columns #}
+    {% if link_columns is not empty %}
+      <div class="tibi-footer__columns">
+        {% for col in link_columns %}
+          <div class="tibi-footer__column">
+            <h4 class="tibi-footer__col-title">{{ col.title }}</h4>
+            <ul class="tibi-footer__col-links">
+              {% for link in col.links %}
+                <li><a href="{{ link.url }}" class="tibi-footer__link">{{ link.label }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# Social + brand row #}
+    <div class="tibi-footer__social-row">
+      {% if social_links is not empty %}
+        <div class="tibi-footer__social">
+          {% for s in social_links %}
+            <a href="{{ s.url }}" class="tibi-footer__social-icon" aria-label="{{ s.network }}">
+              {% if s.network == 'Facebook' %}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              {% elseif s.network == 'Instagram' %}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path fill="var(--tibi-navy)" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line stroke="var(--tibi-navy)" stroke-width="1.5" x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              {% elseif s.network == 'Twitter' %}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+              {% elseif s.network == 'Youtube' %}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon fill="var(--tibi-navy)" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+              {% endif %}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="tibi-footer__brand">
+        <span class="tibi-footer__brand-name">{{ site_name|default('TIBIDABO') }}</span>
+        <span class="tibi-footer__brand-address">{{ address|default('Plaça del Tibidabo, Barcelona') }}</span>
+      </div>
+    </div>
+
+    {# Legal row #}
+    <div class="tibi-footer__legal">
+      {% if legal_links is not empty %}
+        <div class="tibi-footer__legal-links">
+          {% for link in legal_links %}
+            {% if not loop.first %}<span aria-hidden="true">•</span>{% endif %}
+            <a href="{{ link.url }}" class="tibi-footer__legal-link">{{ link.label }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <span class="tibi-footer__copyright">{{ copyright|default('© 2026 Parc d'Atraccions Tibidabo') }}</span>
+    </div>
+
+  </div>
+</footer>

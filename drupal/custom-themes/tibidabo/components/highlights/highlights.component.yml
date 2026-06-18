@@ -1,0 +1,22 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Highlights
+description: 'Three-column card grid section showcasing featured experiences (Àrea Panoràmica, TibiClub, seasonal events).'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Section heading
+      default: "Destacats del moment"
+    subheading:
+      type: string
+      title: Section subheading
+    items:
+      type: array
+      title: Highlight items
+      description: 'Array of { title, description, image_url, image_alt, tag, link_url }'
+      items:
+        type: object
+  required:
+    - items

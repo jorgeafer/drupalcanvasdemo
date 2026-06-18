@@ -1,0 +1,32 @@
+{#
+  Tibidabo Card SDC
+  Props: title, body, image_url, image_alt, tag, link_url, link_label, hover
+#}
+<div class="tibi-card{{ hover != false ? ' tibi-card--hover' }}">
+  {% if image_url %}
+    <div class="tibi-card__image">
+      <img src="{{ image_url }}" alt="{{ image_alt|default('') }}" loading="lazy">
+    </div>
+  {% endif %}
+
+  <div class="tibi-card__body">
+    {% if tag %}
+      <span class="tibi-card__tag">{{ tag }}</span>
+    {% endif %}
+
+    <h3 class="tibi-card__title">{{ title }}</h3>
+
+    {% if body %}
+      <p class="tibi-card__text">{{ body }}</p>
+    {% endif %}
+
+    {% if link_url %}
+      <a href="{{ link_url }}" class="tibi-card__link">
+        {{ link_label|default('Més informació') }}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" transform="scale(-1,1) translate(-24,0)"/>
+        </svg>
+      </a>
+    {% endif %}
+  </div>
+</div>

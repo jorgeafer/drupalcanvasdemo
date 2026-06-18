@@ -1,0 +1,46 @@
+{#
+  Tibidabo Ticket Purchase Section SDC
+  Props: heading, subheading, tickets[]
+#}
+<section class="tibi-tickets tibi-section tibi-section--blue">
+  <div class="tibi-container">
+    <div class="tibi-section__header">
+      <h2 class="tibi-heading-lg" style="color:#fff;">{{ heading|default('Compra les teves entrades') }}</h2>
+      {% if subheading %}
+        <p class="tibi-text-lead" style="color:rgba(255,255,255,.85);">{{ subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="tibi-tickets__grid">
+      {% for ticket in tickets %}
+        <div class="tibi-ticket-card{% if ticket.highlighted %} tibi-ticket-card--featured{% endif %}">
+          {% if ticket.highlighted %}
+            <div class="tibi-ticket-card__badge">Més popular</div>
+          {% endif %}
+          <div class="tibi-ticket-card__header">
+            <h3 class="tibi-ticket-card__name">{{ ticket.label }}</h3>
+            <div class="tibi-ticket-card__price">{{ ticket.price }}</div>
+            {% if ticket.description %}
+              <p class="tibi-ticket-card__desc">{{ ticket.description }}</p>
+            {% endif %}
+          </div>
+          {% if ticket.features is not empty %}
+            <ul class="tibi-ticket-card__features">
+              {% for feature in ticket.features %}
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  {{ feature }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {% if ticket.cta_url %}
+            <a href="{{ ticket.cta_url }}" class="tibi-btn tibi-btn--{% if ticket.highlighted %}primary{% else %}outline{% endif %} tibi-btn--md tibi-btn--full tibi-ticket-card__cta">
+              Comprar
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

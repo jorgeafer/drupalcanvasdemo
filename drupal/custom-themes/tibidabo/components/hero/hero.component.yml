@@ -1,0 +1,48 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Hero
+description: 'Full-bleed hero section with a background image, headline, subtitle, and an info card (status, hours, funicular). Used on the homepage.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Heading
+      default: 'Viu el Tibidabo'
+    subheading:
+      type: string
+      title: Subheading
+      default: "Parc d'atraccions i les millors vistes de Barcelona"
+    background_image:
+      type: string
+      title: Background image URL
+    background_alt:
+      type: string
+      title: Background image alt
+      default: 'Tibidabo panoramic view'
+    park_open:
+      type: boolean
+      title: Park open today
+      default: true
+    hours_today:
+      type: string
+      title: Hours today
+      default: '10:00 – 20:00'
+    panoramic_open:
+      type: boolean
+      title: Panoramic area open
+      default: true
+    funicular_interval:
+      type: string
+      title: Funicular interval
+      default: 'Cada 15 min'
+    cta_buy_url:
+      type: string
+      title: Buy tickets URL
+      default: '#tickets'
+    cta_hours_url:
+      type: string
+      title: View hours URL
+      default: '#horaris'
+  required:
+    - heading

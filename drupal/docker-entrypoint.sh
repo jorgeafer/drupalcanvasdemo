@@ -82,8 +82,12 @@ if [ "$INSTALLED" = "false" ]; then
     echo 'Groq provider configured.' . PHP_EOL;
   " 2>&1
 
-  # Also enable our custom canvas_ai supplement module (admin chat page)
+  # Enable our custom canvas_ai supplement module (admin chat page)
   drush pm:enable canvas_ai --yes 2>&1 || echo "[Canvas] canvas_ai supplement module skipped (optional)."
+
+  echo "[Canvas] Enabling Tibidabo theme..."
+  drush theme:enable tibidabo --yes 2>&1 || echo "[Canvas] tibidabo theme enable skipped (optional)."
+  drush config:set system.theme default tibidabo --yes 2>&1 || true
 
   echo "[Canvas] Configuring permissions..."
   drush php:eval "

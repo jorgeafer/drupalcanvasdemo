@@ -1,0 +1,51 @@
+{#
+  Tibidabo News Section SDC
+  Props: heading, items[], cta_url, cta_label
+#}
+<section class="tibi-news tibi-section tibi-section--light">
+  <div class="tibi-container">
+    <div class="tibi-section__header">
+      <h2 class="tibi-heading-lg">{{ heading|default('Notícies i novetats') }}</h2>
+    </div>
+
+    <div class="tibi-grid-3">
+      {% for item in items %}
+        <article class="tibi-card tibi-card--hover">
+          {% if item.image_url %}
+            <div class="tibi-card__image tibi-card__image--sm">
+              <img src="{{ item.image_url }}" alt="{{ item.image_alt|default(item.title) }}" loading="lazy">
+            </div>
+          {% endif %}
+          <div class="tibi-card__body">
+            <div class="tibi-news__meta">
+              {% if item.category %}
+                <span class="tibi-card__tag">{{ item.category }}</span>
+              {% endif %}
+              {% if item.date %}
+                <time class="tibi-news__date" datetime="{{ item.date }}">{{ item.date }}</time>
+              {% endif %}
+            </div>
+            <h3 class="tibi-card__title">{{ item.title }}</h3>
+            {% if item.excerpt %}
+              <p class="tibi-card__text">{{ item.excerpt }}</p>
+            {% endif %}
+            {% if item.link_url %}
+              <a href="{{ item.link_url }}" class="tibi-card__link">
+                Llegir més
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if cta_url %}
+      <div class="tibi-news__cta">
+        <a href="{{ cta_url }}" class="tibi-btn tibi-btn--outline tibi-btn--lg">
+          {{ cta_label|default('Veure totes les notícies') }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>

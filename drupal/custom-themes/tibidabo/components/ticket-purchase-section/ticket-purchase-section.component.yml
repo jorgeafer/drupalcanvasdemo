@@ -1,0 +1,22 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Ticket Purchase Section
+description: 'Ticket-buying section with pricing cards (individual, families, groups) and a primary CTA. Blue background variant.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Section heading
+      default: 'Compra les teves entrades'
+    subheading:
+      type: string
+      title: Subheading
+    tickets:
+      type: array
+      title: Ticket options
+      description: 'Array of { label, price, description, features[], cta_url, highlighted }'
+      items:
+        type: object
+  required:
+    - tickets

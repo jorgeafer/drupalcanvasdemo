@@ -1,0 +1,9 @@
+{#
+  Tibidabo Chip SDC
+  Props: label, active (bool), url (optional)
+#}
+{% if url %}
+  <a href="{{ url }}" class="tibi-chip{{ active ? ' tibi-chip--active' }}">{{- label -}}</a>
+{% else %}
+  <button type="button" class="tibi-chip{{ active ? ' tibi-chip--active' }}">{{- label -}}</button>
+{% endif %}

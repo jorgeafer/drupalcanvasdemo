@@ -1,0 +1,26 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: News Section
+description: 'Grid of news / blog cards with date, category, title and excerpt. Typically shown on the homepage or news hub.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Section heading
+      default: 'Notícies i novetats'
+    items:
+      type: array
+      title: News items
+      description: 'Array of { title, excerpt, image_url, image_alt, date, category, link_url }'
+      items:
+        type: object
+    cta_url:
+      type: string
+      title: View all URL
+    cta_label:
+      type: string
+      title: View all label
+      default: 'Veure totes les notícies'
+  required:
+    - items

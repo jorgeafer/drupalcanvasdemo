@@ -1,0 +1,18 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Badge
+description: 'Small status indicator pill. Used throughout the site to show open/closed status, categories, and intensity levels.'
+group: Tibidabo - Atoms
+props:
+  type: object
+  properties:
+    label:
+      type: string
+      title: Label
+    variant:
+      type: string
+      title: Variant
+      description: 'success | warning | error | info | neutral'
+      default: neutral
+      enum: [success, warning, error, info, neutral]
+  required:
+    - label

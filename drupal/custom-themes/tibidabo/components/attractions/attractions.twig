@@ -1,0 +1,79 @@
+{#
+  Tibidabo Attractions SDC
+  Props: heading, subheading, tabs[], cta_url, cta_label
+#}
+<section class="tibi-attractions tibi-section tibi-section--soft">
+  <div class="tibi-container--wide">
+    <div class="tibi-section__header">
+      <h2 class="tibi-heading-lg">{{ heading|default('Atraccions per perfil') }}</h2>
+      {% if subheading %}
+        <p class="tibi-text-lead">{{ subheading }}</p>
+      {% endif %}
+    </div>
+
+    {# Tab pills #}
+    <div class="tibi-attractions__tabs" role="tablist" aria-label="Perfils d'atracció">
+      {% for tab in tabs %}
+        <button
+          role="tab"
+          class="tibi-chip{% if loop.first %} tibi-chip--active{% endif %}"
+          aria-selected="{{ loop.first ? 'true' : 'false' }}"
+          aria-controls="tibi-tab-panel-{{ tab.id }}"
+          id="tibi-tab-{{ tab.id }}"
+          data-tab="{{ tab.id }}"
+        >{{ tab.label }}</button>
+      {% endfor %}
+    </div>
+
+    {# Tab panels #}
+    {% for tab in tabs %}
+      <div
+        id="tibi-tab-panel-{{ tab.id }}"
+        role="tabpanel"
+        aria-labelledby="tibi-tab-{{ tab.id }}"
+        class="tibi-attractions__panel{% if not loop.first %} tibi-attractions__panel--hidden{% endif %}"
+      >
+        <div class="tibi-grid-3">
+          {% for attraction in tab.items %}
+            <div class="tibi-card tibi-card--hover">
+              {% if attraction.image_url %}
+                <div class="tibi-card__image tibi-card__image--sm">
+                  <img src="{{ attraction.image_url }}" alt="{{ attraction.image_alt|default(attraction.name) }}" loading="lazy">
+                </div>
+              {% endif %}
+              <div class="tibi-card__body">
+                <h3 class="tibi-card__title">{{ attraction.name }}</h3>
+                <div class="tibi-attractions__badges">
+                  {% include 'tibidabo:badge' with { label: attraction.min_height, variant: 'neutral' } %}
+                  {% if attraction.intensity %}
+                    {% set int_variant = 'info' %}
+                    {% if 'fuerte' in attraction.intensity|lower %}
+                      {% set int_variant = 'error' %}
+                    {% elseif 'fort' in attraction.intensity|lower %}
+                      {% set int_variant = 'warning' %}
+                    {% endif %}
+                    {% include 'tibidabo:badge' with { label: attraction.intensity, variant: int_variant } %}
+                  {% endif %}
+                </div>
+                {% if attraction.link_url %}
+                  <a href="{{ attraction.link_url }}" class="tibi-card__link">
+                    Veure més
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+
+    {% if cta_url %}
+      <div class="tibi-attractions__cta">
+        <a href="{{ cta_url }}" class="tibi-btn tibi-btn--outline tibi-btn--lg">
+          {{ cta_label|default('Veure totes les atraccions') }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>

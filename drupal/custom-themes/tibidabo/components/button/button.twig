@@ -1,0 +1,18 @@
+{#
+  Tibidabo Button SDC
+  Props: label, url, variant (primary|secondary|outline), size (sm|md|lg), full_width
+#}
+{%
+  set classes = [
+    'tibi-btn',
+    'tibi-btn--' ~ (variant|default('primary')),
+    'tibi-btn--' ~ (size|default('md')),
+    full_width ? 'tibi-btn--full',
+  ]|filter
+%}
+
+{% if url %}
+  <a href="{{ url }}" class="{{ classes|join(' ') }}">{{- label -}}</a>
+{% else %}
+  <button type="button" class="{{ classes|join(' ') }}">{{- label -}}</button>
+{% endif %}

@@ -1,0 +1,30 @@
+.tibi-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--tibi-radius-full);
+  border: 2px solid var(--tibi-border);
+  background-color: var(--tibi-white);
+  color: var(--tibi-navy);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.tibi-chip:hover {
+  border-color: var(--tibi-blue);
+}
+
+.tibi-chip:focus-visible {
+  outline: 3px solid var(--tibi-blue);
+  outline-offset: 2px;
+}
+
+.tibi-chip--active {
+  background-color: var(--tibi-blue);
+  border-color: var(--tibi-blue);
+  color: #fff;
+}

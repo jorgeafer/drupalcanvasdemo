@@ -1,0 +1,185 @@
+.tibi-footer {
+  background-color: var(--tibi-navy);
+  color: var(--tibi-white);
+}
+
+/* CTA band */
+.tibi-footer__cta {
+  background-color: var(--tibi-blue);
+  padding-block: 4rem;
+  text-align: center;
+}
+
+.tibi-footer__cta .tibi-container--wide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tibi-footer__cta-heading {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.tibi-footer__cta-body {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,.9);
+  margin: 0;
+}
+
+.tibi-footer__cta-btn {
+  background-color: #fff !important;
+  color: var(--tibi-blue) !important;
+  border-color: #fff !important;
+  margin-top: 1rem;
+}
+
+.tibi-footer__cta-btn:hover {
+  background-color: #f0f4f8 !important;
+  border-color: #f0f4f8 !important;
+}
+
+/* Main area */
+.tibi-footer__main {
+  padding-block: 3rem 2rem;
+}
+
+/* Link columns */
+.tibi-footer__columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-block-end: 3rem;
+}
+
+@media (min-width: 768px) {
+  .tibi-footer__columns { grid-template-columns: repeat(4, 1fr); }
+}
+
+.tibi-footer__col-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+.tibi-footer__col-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tibi-footer__link {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.tibi-footer__link:hover {
+  color: #fff;
+}
+
+/* Social row */
+.tibi-footer__social-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding-block: 2rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+@media (min-width: 768px) {
+  .tibi-footer__social-row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.tibi-footer__social {
+  display: flex;
+  gap: 1rem;
+}
+
+.tibi-footer__social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,.1);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+
+.tibi-footer__social-icon:hover {
+  background-color: rgba(255,255,255,.2);
+}
+
+.tibi-footer__brand {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .tibi-footer__brand { text-align: right; }
+}
+
+.tibi-footer__brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tibi-footer__brand-address {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Legal row */
+.tibi-footer__legal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+@media (min-width: 768px) {
+  .tibi-footer__legal {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.tibi-footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.tibi-footer__legal-link {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.tibi-footer__legal-link:hover {
+  color: #fff;
+}

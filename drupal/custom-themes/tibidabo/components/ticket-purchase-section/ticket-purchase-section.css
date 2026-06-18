@@ -1,0 +1,98 @@
+.tibi-tickets__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px)  { .tibi-tickets__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .tibi-tickets__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.tibi-ticket-card {
+  background-color: #fff;
+  border-radius: var(--tibi-radius);
+  padding: 2rem;
+  position: relative;
+  box-shadow: var(--tibi-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tibi-ticket-card--featured {
+  border: 3px solid var(--tibi-yellow);
+  transform: scale(1.03);
+}
+
+.tibi-ticket-card__badge {
+  position: absolute;
+  top: -0.875rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--tibi-yellow);
+  color: var(--tibi-navy);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.25rem 1rem;
+  border-radius: var(--tibi-radius-full);
+  white-space: nowrap;
+}
+
+.tibi-ticket-card__header {
+  text-align: center;
+}
+
+.tibi-ticket-card__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tibi-navy);
+  margin: 0 0 0.5rem;
+}
+
+.tibi-ticket-card__price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--tibi-blue);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.tibi-ticket-card__desc {
+  font-size: 0.875rem;
+  color: var(--tibi-muted);
+  margin: 0;
+}
+
+.tibi-ticket-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  flex: 1;
+}
+
+.tibi-ticket-card__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--tibi-navy);
+}
+
+.tibi-ticket-card__features svg {
+  flex-shrink: 0;
+  color: var(--tibi-blue);
+  margin-top: 2px;
+}
+
+.tibi-ticket-card__cta {
+  margin-top: auto;
+}
+
+.tibi-ticket-card--featured .tibi-ticket-card__cta {
+  background-color: var(--tibi-blue) !important;
+  border-color: var(--tibi-blue) !important;
+  color: #fff !important;
+}

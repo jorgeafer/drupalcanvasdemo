@@ -1,0 +1,16 @@
+.tibi-news__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-end: 0.75rem;
+}
+
+.tibi-news__date {
+  font-size: 0.8125rem;
+  color: var(--tibi-muted);
+}
+
+.tibi-news__cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}

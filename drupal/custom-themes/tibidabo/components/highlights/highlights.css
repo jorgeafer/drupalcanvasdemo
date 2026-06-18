@@ -1,0 +1,3 @@
+/* Highlights uses the global .tibi-grid-3 and .tibi-card styles.
+   Any section-specific overrides go here. */
+.tibi-highlights .tibi-card__image { height: 16rem; }

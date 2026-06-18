@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Tibidabo Design System — Global Tokens & Base Styles
+   Extracted from the Figma export (WEB TIBIDABO) React/TypeScript project.
+   ========================================================================== */
+
+:root {
+  /* Brand colours */
+  --tibi-blue:        #0066cc;
+  --tibi-blue-dark:   #0052a3;
+  --tibi-navy:        #1a1a2e;
+  --tibi-red:         #e31b23;
+  --tibi-yellow:      #ffd700;
+  --tibi-muted:       #5a6c7d;
+  --tibi-border:      #d1dae3;
+  --tibi-light:       #f0f4f8;
+  --tibi-bg-soft:     #f8f9fa;
+  --tibi-white:       #ffffff;
+
+  /* Status colours */
+  --tibi-success:        #22c55e;
+  --tibi-success-bg:     #f0fdf4;
+  --tibi-success-border: #86efac;
+  --tibi-success-text:   #166534;
+  --tibi-warning-bg:     #fefce8;
+  --tibi-warning-border: #fde68a;
+  --tibi-warning-text:   #92400e;
+  --tibi-error-bg:       #fef2f2;
+  --tibi-error-border:   #fca5a5;
+  --tibi-error-text:     #991b1b;
+  --tibi-info-bg:        #eff6ff;
+  --tibi-info-border:    #bfdbfe;
+  --tibi-info-text:      #1e40af;
+
+  /* Radii */
+  --tibi-radius-sm:   0.5rem;
+  --tibi-radius:      0.75rem;
+  --tibi-radius-full: 9999px;
+
+  /* Shadows */
+  --tibi-shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --tibi-shadow:    0 2px 8px rgba(0,0,0,.1);
+  --tibi-shadow-md: 0 4px 12px rgba(0,0,0,.12);
+  --tibi-shadow-lg: 0 10px 24px rgba(0,0,0,.12);
+  --tibi-shadow-xl: 0 20px 32px rgba(0,0,0,.14);
+
+  /* Layout */
+  --tibi-max-width:      1440px;
+  --tibi-max-width-wide: 1920px;
+}
+
+/* ==========================================================================
+   Base reset / normalization layer
+   ========================================================================== */
+.tibi-theme *,
+.tibi-theme *::before,
+.tibi-theme *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Container utility (used by all sections)
+   ========================================================================== */
+.tibi-container {
+  max-width: var(--tibi-max-width);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.tibi-container--wide {
+  max-width: var(--tibi-max-width-wide);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .tibi-container       { padding-inline: 5rem; }
+  .tibi-container--wide { padding-inline: 6rem; }
+}
+
+/* ==========================================================================
+   Typography scale (mirrors the Figma export)
+   ========================================================================== */
+.tibi-heading-xl {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--tibi-navy);
+}
+
+.tibi-heading-lg {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--tibi-navy);
+}
+
+.tibi-heading-md {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--tibi-navy);
+}
+
+.tibi-text-lead {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--tibi-muted);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Section spacing
+   ========================================================================== */
+.tibi-section {
+  padding-block: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .tibi-section { padding-block: 5rem; }
+}
+
+.tibi-section--light { background-color: var(--tibi-white); }
+.tibi-section--soft  { background-color: var(--tibi-bg-soft); }
+.tibi-section--dark  { background-color: var(--tibi-navy); color: var(--tibi-white); }
+.tibi-section--blue  { background-color: var(--tibi-blue); color: var(--tibi-white); }
+
+/* ==========================================================================
+   Text-centre helper used in section headers
+   ========================================================================== */
+.tibi-section__header {
+  text-align: center;
+  margin-block-end: 3rem;
+}
+
+.tibi-section__header .tibi-heading-lg { margin-block-end: 1rem; }
+.tibi-section__header .tibi-text-lead  { max-width: 42ch; margin-inline: auto; }
+
+/* ==========================================================================
+   Grid helpers
+   ========================================================================== */
+.tibi-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 768px)  { .tibi-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .tibi-grid-3 { grid-template-columns: repeat(3, 1fr); } }
+
+.tibi-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+@media (min-width: 1024px) { .tibi-grid-4 { grid-template-columns: repeat(4, 1fr); } }

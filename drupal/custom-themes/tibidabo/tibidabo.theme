@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Tibidabo theme functions.
+ */
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function tibidabo_preprocess_html(&$variables) {
+  // Expose Tibidabo design-system CSS custom properties as a body attribute
+  // so components can rely on the token cascade from any entry point.
+  $variables['html_attributes']->addClass('tibi-theme');
+}

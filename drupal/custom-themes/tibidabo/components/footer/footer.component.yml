@@ -1,0 +1,49 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Footer
+description: 'Full site footer with CTA band, four-column link sections, social media icons, and legal links. Dark navy background.'
+group: Tibidabo - Layout
+props:
+  type: object
+  properties:
+    cta_heading:
+      type: string
+      title: CTA heading
+      default: '¿Listo para venir?'
+    cta_body:
+      type: string
+      title: CTA subtext
+      default: 'Compra tus entradas ahora y asegura tu plaza'
+    cta_url:
+      type: string
+      title: CTA button URL
+      default: '#tickets'
+    link_columns:
+      type: array
+      title: Link columns
+      description: Array of { title, links: [{label, url}] }
+      items:
+        type: object
+    social_links:
+      type: array
+      title: Social links
+      description: Array of { network, url }
+      items:
+        type: object
+    legal_links:
+      type: array
+      title: Legal links
+      description: Array of { label, url }
+      items:
+        type: object
+    copyright:
+      type: string
+      title: Copyright text
+      default: '© 2026 Parc d'Atraccions Tibidabo'
+    address:
+      type: string
+      title: Address
+      default: 'Plaça del Tibidabo, Barcelona'
+    site_name:
+      type: string
+      title: Site name
+      default: TIBIDABO

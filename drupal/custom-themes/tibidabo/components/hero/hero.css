@@ -1,0 +1,136 @@
+.tibi-hero {
+  position: relative;
+  height: 600px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .tibi-hero { height: 700px; }
+}
+
+.tibi-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #1a3a6e;
+}
+
+.tibi-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.65) 0%, rgba(0,0,0,.3) 50%, transparent 100%);
+}
+
+.tibi-hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .tibi-hero__content {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 5rem;
+  }
+}
+
+/* Text block */
+.tibi-hero__text {
+  color: #fff;
+  max-width: 42rem;
+}
+
+.tibi-hero__heading {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+.tibi-hero__subheading {
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  opacity: .95;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Info card */
+.tibi-hero__card {
+  background-color: #fff;
+  border-radius: var(--tibi-radius);
+  box-shadow: var(--tibi-shadow-xl);
+  padding: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .tibi-hero__card {
+    width: auto;
+    min-width: 380px;
+    padding: 2rem;
+    flex-shrink: 0;
+  }
+}
+
+.tibi-hero__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.tibi-hero__card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tibi-navy);
+  margin: 0;
+}
+
+.tibi-hero__info {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tibi-hero__info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.tibi-hero__info-icon {
+  color: var(--tibi-blue);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tibi-hero__info-label {
+  font-size: 0.8125rem;
+  color: var(--tibi-muted);
+  margin-bottom: 2px;
+}
+
+.tibi-hero__info-value {
+  font-weight: 500;
+  color: var(--tibi-navy);
+  font-size: 0.9375rem;
+}
+
+.tibi-hero__card-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

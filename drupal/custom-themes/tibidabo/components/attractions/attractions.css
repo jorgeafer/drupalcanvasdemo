@@ -1,0 +1,27 @@
+.tibi-attractions__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-block-end: 2.5rem;
+}
+
+.tibi-attractions__panel--hidden {
+  display: none;
+}
+
+.tibi-attractions__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 0.75rem 1rem;
+}
+
+.tibi-card__image--sm {
+  height: 12rem;
+}
+
+.tibi-attractions__cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}

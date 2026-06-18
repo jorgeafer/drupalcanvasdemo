@@ -1,0 +1,23 @@
+name: Tibidabo
+type: theme
+description: 'Theme based on the Tibidabo amusement park design system. Provides Single Directory Components for use with Drupal Canvas.'
+package: Custom
+core_version_requirement: ^10 || ^11
+base theme: olivero
+
+regions:
+  header: Header
+  primary_menu: 'Primary Menu'
+  highlighted: Highlighted
+  breadcrumb: Breadcrumb
+  content: Content
+  sidebar_first: 'Left Sidebar'
+  sidebar_second: 'Right Sidebar'
+  footer_first: 'Footer First'
+  footer_second: 'Footer Second'
+  footer_third: 'Footer Third'
+  footer_fourth: 'Footer Fourth'
+  footer_bottom: 'Footer Bottom'
+
+libraries:
+  - tibidabo/global

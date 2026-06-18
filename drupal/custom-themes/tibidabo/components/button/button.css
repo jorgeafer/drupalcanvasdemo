@@ -1,0 +1,59 @@
+.tibi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--tibi-radius-sm);
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.tibi-btn:focus-visible {
+  outline: 3px solid var(--tibi-blue);
+  outline-offset: 2px;
+}
+
+/* Variants */
+.tibi-btn--primary {
+  background-color: var(--tibi-blue);
+  border-color: var(--tibi-blue);
+  color: #fff;
+}
+.tibi-btn--primary:hover {
+  background-color: var(--tibi-blue-dark);
+  border-color: var(--tibi-blue-dark);
+}
+
+.tibi-btn--secondary {
+  background-color: var(--tibi-light);
+  border-color: var(--tibi-light);
+  color: var(--tibi-navy);
+}
+.tibi-btn--secondary:hover {
+  background-color: #e8ecf0;
+  border-color: #e8ecf0;
+}
+
+.tibi-btn--outline {
+  background-color: transparent;
+  border-color: var(--tibi-blue);
+  color: var(--tibi-blue);
+}
+.tibi-btn--outline:hover {
+  background-color: var(--tibi-blue);
+  color: #fff;
+}
+
+/* Sizes */
+.tibi-btn--sm { padding: 0.5rem 1rem;    font-size: 0.875rem; }
+.tibi-btn--md { padding: 0.75rem 1.5rem; font-size: 1rem; }
+.tibi-btn--lg { padding: 1rem 2rem;      font-size: 1.125rem; }
+
+/* Width */
+.tibi-btn--full { width: 100%; }

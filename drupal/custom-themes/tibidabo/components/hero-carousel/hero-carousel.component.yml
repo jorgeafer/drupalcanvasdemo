@@ -1,0 +1,28 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Hero Carousel
+description: 'Auto-advancing full-bleed image carousel with nav arrows and dot pagination. Used on the homepage and category landing pages.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    slides:
+      type: array
+      title: Slides
+      description: 'Array of { image_url, image_alt, title, subtitle, cta_label, cta_url }'
+      items:
+        type: object
+        properties:
+          image_url:  { type: string }
+          image_alt:  { type: string, default: '' }
+          title:      { type: string }
+          subtitle:   { type: string }
+          cta_label:  { type: string }
+          cta_url:    { type: string }
+    autoplay_ms:
+      type: integer
+      title: Autoplay interval (ms)
+      default: 5000
+  required:
+    - slides
+libraryDependencies:
+  - tibidabo/component.hero-carousel

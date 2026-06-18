@@ -1,0 +1,28 @@
+{#
+  Tibidabo Highlights SDC
+  Props: heading, subheading, items[]
+#}
+<section class="tibi-highlights tibi-section tibi-section--light">
+  <div class="tibi-container">
+    <div class="tibi-section__header">
+      <h2 class="tibi-heading-lg">{{ heading|default('Destacats del moment') }}</h2>
+      {% if subheading %}
+        <p class="tibi-text-lead">{{ subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="tibi-grid-3">
+      {% for item in items %}
+        {% include 'tibidabo:card' with {
+          title:     item.title,
+          body:      item.description,
+          image_url: item.image_url,
+          image_alt: item.image_alt|default(''),
+          tag:       item.tag,
+          link_url:  item.link_url,
+          hover:     true,
+        } %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

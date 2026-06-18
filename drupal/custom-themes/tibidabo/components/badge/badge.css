@@ -1,0 +1,37 @@
+.tibi-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--tibi-radius-full);
+  border: 1px solid currentColor;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.tibi-badge--success {
+  background-color: var(--tibi-success-bg);
+  border-color: var(--tibi-success-border);
+  color: var(--tibi-success-text);
+}
+.tibi-badge--warning {
+  background-color: var(--tibi-warning-bg);
+  border-color: var(--tibi-warning-border);
+  color: var(--tibi-warning-text);
+}
+.tibi-badge--error {
+  background-color: var(--tibi-error-bg);
+  border-color: var(--tibi-error-border);
+  color: var(--tibi-error-text);
+}
+.tibi-badge--info {
+  background-color: var(--tibi-info-bg);
+  border-color: var(--tibi-info-border);
+  color: var(--tibi-info-text);
+}
+.tibi-badge--neutral {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+}

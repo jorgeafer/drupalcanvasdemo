@@ -1,0 +1,142 @@
+.tibi-carousel {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .tibi-carousel { height: 600px; }
+}
+
+/* Slides */
+.tibi-carousel__track,
+.tibi-carousel__slide {
+  position: absolute;
+  inset: 0;
+}
+
+.tibi-carousel__slide {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+.tibi-carousel__slide--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tibi-carousel__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: #1a3a6e;
+}
+
+.tibi-carousel__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.5) 50%, rgba(0,0,0,.3) 100%);
+}
+
+/* Content */
+.tibi-carousel__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.tibi-carousel__text {
+  color: #fff;
+  max-width: 48rem;
+}
+
+.tibi-carousel__heading {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+.tibi-carousel__subtitle {
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  opacity: .95;
+  margin: 0 0 2rem;
+}
+
+.tibi-carousel__cta {
+  background-color: #fff !important;
+  color: #3f3d7d !important;
+  border-color: #fff !important;
+}
+
+.tibi-carousel__cta:hover {
+  background-color: #f0f4f8 !important;
+  border-color: #f0f4f8 !important;
+}
+
+/* Arrows */
+.tibi-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255,255,255,.2);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.15s;
+}
+
+.tibi-carousel__arrow:hover {
+  background-color: rgba(255,255,255,.35);
+}
+
+.tibi-carousel__arrow--prev { left: 1rem; }
+.tibi-carousel__arrow--next { right: 1rem; }
+
+@media (min-width: 1024px) {
+  .tibi-carousel__arrow--prev { left: 2rem; }
+  .tibi-carousel__arrow--next { right: 2rem; }
+}
+
+/* Dots */
+.tibi-carousel__dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.tibi-carousel__dot {
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: var(--tibi-radius-full);
+  border: none;
+  background-color: rgba(255,255,255,.5);
+  cursor: pointer;
+  transition: width 0.2s, background-color 0.2s;
+  padding: 0;
+}
+
+.tibi-carousel__dot--active {
+  width: 2rem;
+  background-color: #fff;
+}
+
+.tibi-carousel__dot:hover:not(.tibi-carousel__dot--active) {
+  background-color: rgba(255,255,255,.75);
+}

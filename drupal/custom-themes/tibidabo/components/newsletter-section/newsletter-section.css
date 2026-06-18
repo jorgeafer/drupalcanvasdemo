@@ -1,0 +1,52 @@
+.tibi-newsletter__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 1024px) {
+  .tibi-newsletter__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+
+  .tibi-newsletter__copy { flex: 1; }
+  .tibi-newsletter__form { flex-shrink: 0; width: 42%; }
+}
+
+.tibi-newsletter__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tibi-newsletter__input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--tibi-border);
+  border-radius: var(--tibi-radius-sm);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--tibi-navy);
+  background-color: #fff;
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.tibi-newsletter__input::placeholder {
+  color: var(--tibi-muted);
+}
+
+.tibi-newsletter__input:focus {
+  outline: none;
+  border-color: var(--tibi-blue);
+}
+
+.tibi-newsletter__privacy {
+  font-size: 0.8125rem;
+  color: var(--tibi-muted);
+  margin: 0.75rem 0 0;
+  line-height: 1.5;
+}

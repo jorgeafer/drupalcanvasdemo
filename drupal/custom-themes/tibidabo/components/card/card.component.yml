@@ -1,0 +1,37 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Card
+description: 'Content card with optional image, category badge, title, body text, and a "more" link. Used in Highlights, News, and Attractions sections.'
+group: Tibidabo - Atoms
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      title: Title
+    body:
+      type: string
+      title: Body text
+    image_url:
+      type: string
+      title: Image URL
+    image_alt:
+      type: string
+      title: Image alt text
+      default: ''
+    tag:
+      type: string
+      title: Tag / category label
+    link_url:
+      type: string
+      title: Link URL
+    link_label:
+      type: string
+      title: Link label
+      default: 'Més informació'
+    hover:
+      type: boolean
+      title: Hover effect
+      description: Lifts the card slightly on hover.
+      default: true
+  required:
+    - title

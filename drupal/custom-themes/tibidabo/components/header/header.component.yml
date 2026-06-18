@@ -1,0 +1,45 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Header
+description: 'Sticky site header with logo, primary navigation, status badge (open/closed), and ticket purchase CTA buttons. Responsive with mobile hamburger menu.'
+group: Tibidabo - Layout
+props:
+  type: object
+  properties:
+    site_name:
+      type: string
+      title: Site name / logo text
+      default: TIBIDABO
+    logo_url:
+      type: string
+      title: Logo image URL
+      description: If set, renders an image; otherwise shows the text logo.
+    home_url:
+      type: string
+      title: Home URL
+      default: /
+    nav_items:
+      type: array
+      title: Navigation items
+      items:
+        type: object
+        properties:
+          label: { type: string }
+          url:   { type: string }
+    status_open:
+      type: boolean
+      title: Park open today
+      default: true
+    status_hours:
+      type: string
+      title: Today's hours
+      default: '10:00–19:00'
+    cta_url:
+      type: string
+      title: Buy tickets URL
+      default: '#tickets'
+    prices_url:
+      type: string
+      title: Prices page URL
+      default: '#precios'
+libraryDependencies:
+  - tibidabo/component.header

@@ -1,0 +1,30 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Newsletter Section
+description: 'Email newsletter opt-in section with heading, body copy, and an inline email input + submit button.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Heading
+      default: "Mantén-te informat"
+    body:
+      type: string
+      title: Body copy
+      default: "Subscriu-te i rep les últimes novetats, ofertes i esdeveniments del Tibidabo."
+    form_action:
+      type: string
+      title: Form action URL
+      default: '#newsletter'
+    placeholder:
+      type: string
+      title: Input placeholder
+      default: "El teu correu electrònic"
+    button_label:
+      type: string
+      title: Button label
+      default: "Subscriure'm"
+    privacy_text:
+      type: string
+      title: Privacy disclaimer

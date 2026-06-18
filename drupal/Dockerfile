@@ -68,6 +68,11 @@ RUN composer require drush/drush --no-progress && \
 # can use Groq's free-tier models (llama-3.3-70b-versatile, etc.)
 RUN composer require drupal/ai_provider_groq --no-progress 2>&1 | tail -5
 
+# ── Custom modules & themes ───────────────────────────────────────────────
+# Copy before chown so www-data owns everything in one pass.
+COPY custom-modules/ /var/www/html/web/modules/custom/
+COPY custom-themes/  /var/www/html/web/themes/custom/
+
 # ── Permissions ───────────────────────────────────────────────────────────
 RUN chown -R www-data:www-data /var/www/html
 

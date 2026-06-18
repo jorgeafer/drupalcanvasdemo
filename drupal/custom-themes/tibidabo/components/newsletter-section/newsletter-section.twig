@@ -1,0 +1,37 @@
+{#
+  Tibidabo Newsletter Section SDC
+  Props: heading, body, form_action, placeholder, button_label, privacy_text
+#}
+<section class="tibi-newsletter tibi-section tibi-section--soft">
+  <div class="tibi-container">
+    <div class="tibi-newsletter__inner">
+      <div class="tibi-newsletter__copy">
+        <h2 class="tibi-heading-lg">{{ heading|default("Mantén-te informat") }}</h2>
+        {% if body %}
+          <p class="tibi-text-lead">{{ body }}</p>
+        {% endif %}
+      </div>
+
+      <form class="tibi-newsletter__form" action="{{ form_action|default('#newsletter') }}" method="post">
+        <div class="tibi-newsletter__row">
+          <label for="tibi-newsletter-email" class="visually-hidden">Correu electrònic</label>
+          <input
+            id="tibi-newsletter-email"
+            type="email"
+            name="email"
+            class="tibi-newsletter__input"
+            placeholder="{{ placeholder|default("El teu correu electrònic") }}"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="tibi-btn tibi-btn--primary tibi-btn--md tibi-newsletter__submit">
+            {{ button_label|default("Subscriure'm") }}
+          </button>
+        </div>
+        {% if privacy_text %}
+          <p class="tibi-newsletter__privacy">{{ privacy_text }}</p>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+{#
+  Tibidabo Hero Carousel SDC
+  Props: slides[], autoplay_ms
+#}
+<section
+  class="tibi-carousel"
+  data-autoplay="{{ autoplay_ms|default(5000) }}"
+  aria-label="Carrusel d'imatges destacades"
+  aria-roledescription="carousel"
+>
+  {# Slides #}
+  <div class="tibi-carousel__track">
+    {% for slide in slides %}
+      <div
+        class="tibi-carousel__slide{% if loop.first %} tibi-carousel__slide--active{% endif %}"
+        role="group"
+        aria-roledescription="slide"
+        aria-label="{{ loop.index }} de {{ slides|length }}"
+        aria-hidden="{{ loop.first ? 'false' : 'true' }}"
+      >
+        <div class="tibi-carousel__bg" style="background-image:url('{{ slide.image_url }}')" role="img" aria-label="{{ slide.image_alt|default('') }}"></div>
+        <div class="tibi-carousel__overlay" aria-hidden="true"></div>
+        <div class="tibi-carousel__content tibi-container--wide">
+          <div class="tibi-carousel__text">
+            <h2 class="tibi-carousel__heading">{{ slide.title }}</h2>
+            {% if slide.subtitle %}
+              <p class="tibi-carousel__subtitle">{{ slide.subtitle }}</p>
+            {% endif %}
+            {% if slide.cta_url %}
+              <a href="{{ slide.cta_url }}" class="tibi-btn tibi-btn--secondary tibi-btn--lg tibi-carousel__cta">
+                {{ slide.cta_label|default('Descobrir') }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# Prev/Next #}
+  <button class="tibi-carousel__arrow tibi-carousel__arrow--prev" aria-label="Diapositiva anterior">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+  </button>
+  <button class="tibi-carousel__arrow tibi-carousel__arrow--next" aria-label="Diapositiva següent">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+  </button>
+
+  {# Dots #}
+  <div class="tibi-carousel__dots" role="tablist" aria-label="Diapositives">
+    {% for slide in slides %}
+      <button
+        class="tibi-carousel__dot{% if loop.first %} tibi-carousel__dot--active{% endif %}"
+        role="tab"
+        aria-selected="{{ loop.first ? 'true' : 'false' }}"
+        aria-label="Diapositiva {{ loop.index }}"
+        data-index="{{ loop.index0 }}"
+      ></button>
+    {% endfor %}
+  </div>
+</section>

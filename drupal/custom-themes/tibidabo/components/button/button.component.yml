@@ -1,0 +1,33 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Button
+description: 'Tibidabo action button. Supports primary (blue), secondary (light), and outline variants in three sizes.'
+group: Tibidabo - Atoms
+props:
+  type: object
+  properties:
+    label:
+      type: string
+      title: Label
+      description: Visible button text.
+    url:
+      type: string
+      title: URL
+      description: 'When set, renders an <a> tag instead of a <button>.'
+    variant:
+      type: string
+      title: Variant
+      description: 'primary | secondary | outline'
+      default: primary
+      enum: [primary, secondary, outline]
+    size:
+      type: string
+      title: Size
+      description: 'sm | md | lg'
+      default: md
+      enum: [sm, md, lg]
+    full_width:
+      type: boolean
+      title: Full width
+      default: false
+  required:
+    - label

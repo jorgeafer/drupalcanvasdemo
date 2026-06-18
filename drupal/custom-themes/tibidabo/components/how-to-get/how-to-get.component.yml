@@ -1,0 +1,26 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: How To Get
+description: 'Transport options section showing how to reach Tibidabo (bus, metro, funicular, car) with icons, descriptions, and links.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Section heading
+      default: 'Com arribar-hi'
+    subheading:
+      type: string
+      title: Subheading
+    transport_options:
+      type: array
+      title: Transport options
+      description: 'Array of { icon (bus|metro|tram|car|walk), label, description, link_url, link_label }'
+      items:
+        type: object
+    map_embed_url:
+      type: string
+      title: Google Maps embed URL
+      description: Optional iframe src for an embedded map.
+  required:
+    - transport_options

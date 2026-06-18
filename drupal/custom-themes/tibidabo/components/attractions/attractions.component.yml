@@ -1,0 +1,32 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Attractions
+description: 'Tabbed attraction grid filtered by audience profile (Families, Kids, Adrenaline, Iconic). Each card shows an image, name, min height badge, and intensity badge.'
+group: Tibidabo - Sections
+props:
+  type: object
+  properties:
+    heading:
+      type: string
+      title: Section heading
+      default: "Atraccions per perfil"
+    subheading:
+      type: string
+      title: Section subheading
+    tabs:
+      type: array
+      title: Tab definitions
+      description: 'Array of { id, label, items: [{ name, image_url, image_alt, min_height, intensity, link_url }] }'
+      items:
+        type: object
+    cta_url:
+      type: string
+      title: View all URL
+      default: '#atraccions'
+    cta_label:
+      type: string
+      title: View all label
+      default: 'Veure totes les atraccions'
+  required:
+    - tabs
+libraryDependencies:
+  - tibidabo/component.attractions

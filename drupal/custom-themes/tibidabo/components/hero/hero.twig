@@ -1,0 +1,61 @@
+{#
+  Tibidabo Hero SDC
+  Full-bleed hero with background image and an info card overlay.
+#}
+<section class="tibi-hero">
+  {# Background #}
+  {% if background_image %}
+    <div class="tibi-hero__bg" style="background-image:url('{{ background_image }}')" role="img" aria-label="{{ background_alt|default('') }}"></div>
+  {% endif %}
+  <div class="tibi-hero__overlay" aria-hidden="true"></div>
+
+  {# Content #}
+  <div class="tibi-hero__content tibi-container">
+    <div class="tibi-hero__text">
+      <h1 class="tibi-hero__heading">{{ heading }}</h1>
+      {% if subheading %}
+        <p class="tibi-hero__subheading">{{ subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="tibi-hero__card">
+      <div class="tibi-hero__card-header">
+        <h3 class="tibi-hero__card-title">Avui al Tibidabo</h3>
+        {% include 'tibidabo:badge' with { label: park_open ? 'Obert' : 'Tancat', variant: park_open ? 'success' : 'error' } %}
+      </div>
+
+      <ul class="tibi-hero__info">
+        <li class="tibi-hero__info-item">
+          <svg class="tibi-hero__info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div>
+            <div class="tibi-hero__info-label">Horari avui</div>
+            <div class="tibi-hero__info-value">{{ hours_today }}</div>
+          </div>
+        </li>
+        <li class="tibi-hero__info-item">
+          <svg class="tibi-hero__info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l2 2 8-6 8 6 2-2M1 12l2 2 8-6 8 6 2-2M1 18l2 2 8-6 8 6 2-2"/></svg>
+          <div>
+            <div class="tibi-hero__info-label">Àrea Panoràmica</div>
+            <div class="tibi-hero__info-value">{{ panoramic_open ? 'Oberta' : 'Tancada' }}</div>
+          </div>
+        </li>
+        <li class="tibi-hero__info-item">
+          <svg class="tibi-hero__info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2M12 12v4M8 12v4M16 12v4"/></svg>
+          <div>
+            <div class="tibi-hero__info-label">Funicular</div>
+            <div class="tibi-hero__info-value">{{ funicular_interval }}</div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="tibi-hero__card-ctas">
+        <a href="{{ cta_buy_url|default('#tickets') }}" class="tibi-btn tibi-btn--primary tibi-btn--md tibi-btn--full">
+          Comprar entrades
+        </a>
+        <a href="{{ cta_hours_url|default('#horaris') }}" class="tibi-btn tibi-btn--outline tibi-btn--md tibi-btn--full">
+          Veure horaris
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

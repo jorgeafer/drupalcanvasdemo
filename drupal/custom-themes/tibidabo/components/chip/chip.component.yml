@@ -1,0 +1,20 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/modules/sdc/src/Component/metadata.schema.json
+name: Chip
+description: 'Pill-shaped toggle filter. Used in the Attractions section to switch between audience categories (Familias, Peques, Adrenalina, Emblemàtiques).'
+group: Tibidabo - Atoms
+props:
+  type: object
+  properties:
+    label:
+      type: string
+      title: Label
+    active:
+      type: boolean
+      title: Active state
+      default: false
+    url:
+      type: string
+      title: URL
+      description: Optional link. If omitted the chip renders as a button.
+  required:
+    - label
