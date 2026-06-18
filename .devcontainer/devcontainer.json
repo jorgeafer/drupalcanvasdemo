@@ -26,9 +26,9 @@
   // Start (or restart) services every time the Codespace is opened
   "postStartCommand": "docker compose up -d",
 
-  // Inject the Gemini API key from the Codespaces repository secret
+  // Inject the Groq API key from the Codespaces repository secret
   "remoteEnv": {
-    "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}"
+    "GROQ_API_KEY": "${localEnv:GROQ_API_KEY}"
   },
 
   // Nice-to-have VS Code extensions inside the Codespace

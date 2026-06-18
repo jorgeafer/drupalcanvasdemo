@@ -1,108 +1,124 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { SYSTEM_PROMPT, CREATE_PAGE_FUNCTION } from './components.js';
+/**
+ * Groq chat integration (file kept as gemini.js for import compatibility).
+ * Uses llama-3.3-70b-versatile via Groq's free tier.
+ */
+import Groq from 'groq-sdk';
+import { SYSTEM_PROMPT, CREATE_PAGE_TOOL } from './components.js';
 import { createCanvasPage } from './drupal-client.js';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-/** In-memory session store: socketId → { chat } */
+const MODEL = 'llama-3.3-70b-versatile';
+const TOOLS = [CREATE_PAGE_TOOL];
+
+/** In-memory session store: socketId → { messages: [] } */
 const sessions = new Map();
 
-function buildModel() {
-  return genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash',
-    systemInstruction: SYSTEM_PROMPT,
-    tools: [{ functionDeclarations: [CREATE_PAGE_FUNCTION] }],
-    toolConfig: { functionCallingConfig: { mode: 'AUTO' } },
-  });
-}
-
-/**
- * Returns the chat session for a socket.
- * Creates a new session if one does not exist.
- */
 function getOrCreateSession(socketId) {
   if (!sessions.has(socketId)) {
-    const model = buildModel();
-    const chat = model.startChat({ history: [] });
-    sessions.set(socketId, { chat });
+    sessions.set(socketId, { messages: [] });
   }
   return sessions.get(socketId);
 }
 
-/** Remove the session when a socket disconnects. */
 export function clearSession(socketId) {
   sessions.delete(socketId);
 }
 
 /**
- * Handles one turn of the conversation.
- * Streams text back via `onChunk`, calls Drupal if a function call occurs,
- * and resolves when the turn is complete.
- *
- * @param {string} socketId
- * @param {string|Array} message  – plain string or Gemini parts array
- * @param {{ onChunk, onToolStart, onPageCreated, onError }} callbacks
+ * Handles one conversational turn.
+ * Streams text to the client, executes tool calls when the model requests them,
+ * then continues until the model finishes.
  */
-export async function handleMessage(socketId, message, callbacks) {
+export async function handleMessage(socketId, userText, callbacks) {
   const { onChunk, onToolStart, onPageCreated, onError } = callbacks;
-  const { chat } = getOrCreateSession(socketId);
+  const session = getOrCreateSession(socketId);
+
+  session.messages.push({ role: 'user', content: userText });
 
   try {
-    let currentMessage = message;
-
-    // Loop to handle potential chained function calls
+    // Loop to handle chained tool calls
     while (true) {
-      const result = await chat.sendMessageStream(currentMessage);
+      const stream = await groq.chat.completions.create({
+        model: MODEL,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...session.messages,
+        ],
+        tools: TOOLS,
+        tool_choice: 'auto',
+        max_tokens: 4096,
+        stream: true,
+      });
 
-      // Stream text chunks to the client
-      for await (const chunk of result.stream) {
-        const text = chunk.text();
-        if (text) onChunk(text);
-      }
+      // Accumulate the full response while streaming text to the client
+      let textAccum = '';
+      const toolCalls = [];
 
-      const response = await result.response;
-      const parts = response.candidates?.[0]?.content?.parts ?? [];
+      for await (const chunk of stream) {
+        const delta = chunk.choices[0]?.delta;
 
-      // Look for a function call in the response parts
-      const functionCallPart = parts.find((p) => p.functionCall);
-
-      if (!functionCallPart) {
-        // No function call – conversation turn is complete
-        break;
-      }
-
-      const { name, args } = functionCallPart.functionCall;
-      onToolStart(name);
-
-      let functionResult;
-      try {
-        if (name === 'create_drupal_page') {
-          const page = await createCanvasPage(args.title, args.components);
-          functionResult = {
-            success: true,
-            message: `Page "${args.title}" created successfully.`,
-            url: page.publicUrl,
-            nodeId: page.nodeId,
-          };
-          onPageCreated(page);
-        } else {
-          functionResult = { success: false, error: `Unknown function: ${name}` };
+        // Stream text chunks
+        if (delta?.content) {
+          textAccum += delta.content;
+          onChunk(delta.content);
         }
-      } catch (err) {
-        functionResult = { success: false, error: err.message };
+
+        // Accumulate tool call fragments (they arrive in multiple chunks)
+        if (delta?.tool_calls) {
+          for (const tc of delta.tool_calls) {
+            const idx = tc.index ?? 0;
+            if (!toolCalls[idx]) {
+              toolCalls[idx] = { id: '', type: 'function', function: { name: '', arguments: '' } };
+            }
+            if (tc.id) toolCalls[idx].id = tc.id;
+            if (tc.function?.name) toolCalls[idx].function.name += tc.function.name;
+            if (tc.function?.arguments) toolCalls[idx].function.arguments += tc.function.arguments;
+          }
+        }
       }
 
-      // Feed the function result back and continue the loop
-      currentMessage = [
-        {
-          functionResponse: {
-            name,
-            response: functionResult,
-          },
-        },
-      ];
+      // Save assistant turn to history
+      const assistantMsg = { role: 'assistant', content: textAccum || null };
+      if (toolCalls.length > 0) assistantMsg.tool_calls = toolCalls;
+      session.messages.push(assistantMsg);
+
+      // No tool calls → turn is complete
+      if (toolCalls.length === 0) break;
+
+      // Execute each tool call and push the results back into history
+      for (const tc of toolCalls) {
+        const { name, arguments: argsStr } = tc.function;
+        onToolStart(name);
+
+        let toolResult;
+        try {
+          const args = JSON.parse(argsStr);
+          if (name === 'create_drupal_page') {
+            const page = await createCanvasPage(args.title, args.components);
+            toolResult = {
+              success: true,
+              message: `Page "${args.title}" created successfully.`,
+              url: page.publicUrl,
+              nodeId: page.nodeId,
+            };
+            onPageCreated(page);
+          } else {
+            toolResult = { success: false, error: `Unknown tool: ${name}` };
+          }
+        } catch (err) {
+          toolResult = { success: false, error: err.message };
+        }
+
+        session.messages.push({
+          role: 'tool',
+          tool_call_id: tc.id,
+          content: JSON.stringify(toolResult),
+        });
+      }
+      // Continue loop so the model can respond after tool execution
     }
   } catch (err) {
-    onError(err.message || 'An unexpected error occurred.');
+    onError(err.message || 'Unexpected error from Groq.');
   }
 }

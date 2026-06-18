@@ -43,7 +43,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
       DRUPAL_URL: http://drupal
       DRUPAL_USER: admin
       DRUPAL_PASSWORD: admin123

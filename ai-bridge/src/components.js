@@ -85,39 +85,42 @@ GUIDELINES:
 - When you call create_drupal_page, populate every component field with real content, NOT placeholders.
 `;
 
-/** Gemini function declaration for creating a Drupal page. */
-export const CREATE_PAGE_FUNCTION = {
-  name: 'create_drupal_page',
-  description:
-    'Creates a new page in the Drupal CMS with the specified component layout. ' +
-    'Call this once you have confirmed the page structure with the user.',
-  parameters: {
-    type: 'object',
-    properties: {
-      title: {
-        type: 'string',
-        description: 'Page title shown in the browser tab and as the node title in Drupal.',
-      },
-      components: {
-        type: 'array',
-        description: 'Ordered list of page sections (components).',
-        items: {
-          type: 'object',
-          properties: {
-            type: {
-              type: 'string',
-              enum: ['hero', 'text_block', 'card_grid', 'cta', 'features', 'testimonials'],
-              description: 'Component type identifier.',
+/** Groq / OpenAI-compatible tool definition for creating a Drupal page. */
+export const CREATE_PAGE_TOOL = {
+  type: 'function',
+  function: {
+    name: 'create_drupal_page',
+    description:
+      'Creates a new page in the Drupal CMS with the specified component layout. ' +
+      'Call this once you have confirmed the page structure with the user.',
+    parameters: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          description: 'Page title shown in the browser tab and as the node title in Drupal.',
+        },
+        components: {
+          type: 'array',
+          description: 'Ordered list of page sections (components).',
+          items: {
+            type: 'object',
+            properties: {
+              type: {
+                type: 'string',
+                enum: ['hero', 'text_block', 'card_grid', 'cta', 'features', 'testimonials'],
+                description: 'Component type identifier.',
+              },
+              data: {
+                type: 'object',
+                description: 'All fields for the chosen component type (see component catalogue).',
+              },
             },
-            data: {
-              type: 'object',
-              description: 'All fields for the chosen component type (see component catalogue).',
-            },
+            required: ['type', 'data'],
           },
-          required: ['type', 'data'],
         },
       },
+      required: ['title', 'components'],
     },
-    required: ['title', 'components'],
   },
 };
