@@ -5,8 +5,7 @@ admin_chat:
     https://cdn.socket.io/4.7.5/socket.io.min.js:
       type: external
       minified: true
-    js/canvas-admin-chat.js:
-      weight: 10
+    js/canvas-admin-chat.js: {}
   dependencies:
     - core/drupal
     - core/drupalSettings
