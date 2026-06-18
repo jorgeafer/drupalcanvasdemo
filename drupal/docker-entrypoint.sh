@@ -49,38 +49,42 @@ if [ "$INSTALLED" = "false" ]; then
   # Canvas is included in drupal/cms but may need explicit enabling
   drush pm:enable canvas --yes 2>&1 || true
 
-  # Drupal AI module + Groq provider
-  drush pm:enable ai key ai_provider_groq --yes 2>&1
+  # Drupal AI module + Groq provider (optional — container starts even if unavailable)
+  if drush pm:enable ai key ai_provider_groq --yes 2>&1; then
 
-  echo "[Canvas] Configuring Groq AI provider..."
+    echo "[Canvas] Configuring Groq AI provider..."
 
-  drush php:eval "
-    // 1. Create a Key entity to securely store the Groq API key
-    if (!\Drupal\key\Entity\Key::load('groq_api_key')) {
-      \Drupal\key\Entity\Key::create([
-        'id'                   => 'groq_api_key',
-        'label'                => 'Groq API Key',
-        'key_type'             => 'authentication',
-        'key_provider'         => 'config',
-        'key_provider_settings' => ['key_value' => '${GROQ_KEY}'],
-      ])->save();
-      echo 'Groq key entity created.' . PHP_EOL;
-    }
+    drush php:eval "
+      // 1. Create a Key entity to securely store the Groq API key
+      if (!\Drupal\key\Entity\Key::load('groq_api_key')) {
+        \Drupal\key\Entity\Key::create([
+          'id'                   => 'groq_api_key',
+          'label'                => 'Groq API Key',
+          'key_type'             => 'authentication',
+          'key_provider'         => 'config',
+          'key_provider_settings' => ['key_value' => '${GROQ_KEY}'],
+        ])->save();
+        echo 'Groq key entity created.' . PHP_EOL;
+      }
 
-    // 2. Point the Groq provider to that key
-    \Drupal::configFactory()
-      ->getEditable('ai_provider_groq.settings')
-      ->set('api_key', 'groq_api_key')
-      ->save();
+      // 2. Point the Groq provider to that key
+      \Drupal::configFactory()
+        ->getEditable('ai_provider_groq.settings')
+        ->set('api_key', 'groq_api_key')
+        ->save();
 
-    // 3. Set llama-3.3-70b-versatile as the default chat model
-    \Drupal::configFactory()
-      ->getEditable('ai.settings')
-      ->set('default_providers.chat', ['provider_id' => 'groq', 'model_id' => 'llama-3.3-70b-versatile'])
-      ->save();
+      // 3. Set llama-3.3-70b-versatile as the default chat model
+      \Drupal::configFactory()
+        ->getEditable('ai.settings')
+        ->set('default_providers.chat', ['provider_id' => 'groq', 'model_id' => 'llama-3.3-70b-versatile'])
+        ->save();
 
-    echo 'Groq provider configured.' . PHP_EOL;
-  " 2>&1
+      echo 'Groq provider configured.' . PHP_EOL;
+    " 2>&1 || echo "[Canvas] Groq config step skipped."
+
+  else
+    echo "[Canvas] AI/Groq modules not available — skipping native AI config. The Node.js bridge (port 3000) still works."
+  fi
 
   # Enable our custom canvas_ai supplement module (admin chat page)
   drush pm:enable canvas_ai --yes 2>&1 || echo "[Canvas] canvas_ai supplement module skipped (optional)."

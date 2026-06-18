@@ -64,10 +64,11 @@ RUN composer create-project drupal/cms:^2 . --no-progress 2>&1 | tail -20
 RUN composer require drush/drush --no-progress && \
     ln -sf /var/www/html/vendor/bin/drush /usr/local/bin/drush
 
-# ── Groq AI provider ──────────────────────────────────────────────────────
-# Adds the official Groq provider for Drupal's AI module so Canvas AI
-# can use Groq's free-tier models (llama-3.3-70b-versatile, etc.)
-RUN composer require drupal/ai_provider_groq --no-progress 2>&1 | tail -5
+# ── Drupal AI modules + Groq provider ────────────────────────────────────
+# drupal/key and drupal/ai may already be pulled by drupal/cms:^2; requiring
+# them explicitly guarantees they are present regardless of the CMS version.
+RUN composer require 'drupal/key' 'drupal/ai' 'drupal/ai_provider_groq:@dev' --no-progress \
+    || echo "[WARN] AI/Groq composer require failed — AI features may be limited."
 
 # ── Custom modules & themes ───────────────────────────────────────────────
 # Copy before chown so www-data owns everything in one pass.
