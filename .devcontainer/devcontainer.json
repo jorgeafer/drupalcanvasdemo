@@ -1,0 +1,44 @@
+{
+  "name": "DrupalCanvas AI",
+
+  // Ubuntu base + Docker-in-Docker so we can run docker compose inside Codespaces
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  // Forward Drupal (8080) and the AI Bridge chat UI (3000)
+  "forwardPorts": [3000, 8080],
+  "portsAttributes": {
+    "3000": {
+      "label": "AI Chat UI",
+      "onAutoForward": "openBrowser"
+    },
+    "8080": {
+      "label": "Drupal CMS",
+      "onAutoForward": "silent"
+    }
+  },
+
+  // Build images the first time the Codespace is created
+  "postCreateCommand": "docker compose build",
+
+  // Start (or restart) services every time the Codespace is opened
+  "postStartCommand": "docker compose up -d",
+
+  // Inject the Gemini API key from the Codespaces repository secret
+  "remoteEnv": {
+    "GEMINI_API_KEY": "${localEnv:GEMINI_API_KEY}"
+  },
+
+  // Nice-to-have VS Code extensions inside the Codespace
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bmewburn.vscode-intelephense-client"
+      ]
+    }
+  }
+}

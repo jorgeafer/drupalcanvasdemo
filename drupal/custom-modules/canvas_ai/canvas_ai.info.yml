@@ -1,0 +1,10 @@
+name: Canvas AI
+type: module
+description: 'AI-powered page builder. Provides the canvas_page content type and component rendering.'
+core_version_requirement: ^10 || ^11
+package: Canvas
+dependencies:
+  - drupal:node
+  - drupal:field
+  - drupal:text
+  - drupal:jsonapi

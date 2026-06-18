@@ -1,0 +1,180 @@
+{#
+  canvas-page-node.html.twig
+  Renders all components of a Canvas Page node.
+  Variables:
+    - components: array of { type, data } objects
+    - node_title: page title string
+#}
+<div class="canvas-page" style="font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1a1a2e;margin:0;padding:0;">
+
+  {% for component in components %}
+    {% set d = component.data %}
+
+    {# ── HERO ─────────────────────────────────────────────────── #}
+    {% if component.type == 'hero' %}
+      <section style="background:{{ d.background_color|default('#1a1a2e') }};color:#fff;padding:90px 24px;text-align:center;">
+        <div style="max-width:860px;margin:0 auto;">
+          <h1 style="font-size:clamp(2rem,5vw,3.25rem);font-weight:800;line-height:1.2;margin:0 0 1.25rem;">
+            {{ d.title }}
+          </h1>
+          {% if d.subtitle %}
+            <p style="font-size:1.2rem;opacity:.85;margin:0 0 2.5rem;line-height:1.7;max-width:640px;margin-left:auto;margin-right:auto;">
+              {{ d.subtitle }}
+            </p>
+          {% endif %}
+          {% if d.cta_text %}
+            <a href="{{ d.cta_url|default('#') }}"
+               style="display:inline-block;background:#e94560;color:#fff;padding:14px 38px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1.05rem;letter-spacing:.3px;transition:opacity .2s;">
+              {{ d.cta_text }}
+            </a>
+          {% endif %}
+        </div>
+      </section>
+
+    {# ── TEXT BLOCK ────────────────────────────────────────────── #}
+    {% elseif component.type == 'text_block' %}
+      {% set align = d.layout|default('center') %}
+      <section style="padding:64px 24px;background:#f8f9fa;">
+        <div style="max-width:820px;margin:0 auto;text-align:{{ align }};">
+          {% if d.title %}
+            <h2 style="font-size:2rem;font-weight:700;margin:0 0 1.25rem;color:#1a1a2e;">
+              {{ d.title }}
+            </h2>
+          {% endif %}
+          <div style="font-size:1.05rem;line-height:1.85;color:#374151;">
+            {{ d.body|raw }}
+          </div>
+        </div>
+      </section>
+
+    {# ── CARD GRID ─────────────────────────────────────────────── #}
+    {% elseif component.type == 'card_grid' %}
+      <section style="padding:64px 24px;background:#fff;">
+        <div style="max-width:1200px;margin:0 auto;">
+          {% if d.title %}
+            <h2 style="font-size:2rem;font-weight:700;text-align:center;margin:0 0 3rem;color:#1a1a2e;">
+              {{ d.title }}
+            </h2>
+          {% endif %}
+          <div style="display:grid;grid-template-columns:repeat({{ d.columns|default(3) }},1fr);gap:1.75rem;">
+            {% for card in d.cards|default([]) %}
+              <div style="background:#f8f9fa;border-radius:14px;padding:2rem;box-shadow:0 2px 18px rgba(0,0,0,.06);display:flex;flex-direction:column;">
+                {% if card.icon %}
+                  <div style="font-size:2.75rem;margin-bottom:.9rem;">{{ card.icon }}</div>
+                {% endif %}
+                <h3 style="font-size:1.2rem;font-weight:700;margin:0 0 .6rem;color:#1a1a2e;">
+                  {{ card.title }}
+                </h3>
+                <p style="color:#6b7280;line-height:1.7;flex:1;margin:0 0 1.25rem;">
+                  {{ card.description }}
+                </p>
+                {% if card.link_text %}
+                  <a href="{{ card.link_url|default('#') }}"
+                     style="color:#e94560;font-weight:600;text-decoration:none;font-size:.95rem;">
+                    {{ card.link_text }} →
+                  </a>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+    {# ── CTA ───────────────────────────────────────────────────── #}
+    {% elseif component.type == 'cta' %}
+      {% if d.style == 'light' %}
+        {% set cta_bg = '#f0f4ff' %}
+        {% set cta_fg = '#1a1a2e' %}
+        {% set btn_bg = '#1a1a2e' %}
+        {% set btn_fg = '#fff' %}
+      {% elseif d.style == 'colored' %}
+        {% set cta_bg = '#e94560' %}
+        {% set cta_fg = '#fff' %}
+        {% set btn_bg = '#fff' %}
+        {% set btn_fg = '#e94560' %}
+      {% else %}
+        {% set cta_bg = '#1a1a2e' %}
+        {% set cta_fg = '#fff' %}
+        {% set btn_bg = '#e94560' %}
+        {% set btn_fg = '#fff' %}
+      {% endif %}
+      <section style="background:{{ cta_bg }};color:{{ cta_fg }};padding:80px 24px;text-align:center;">
+        <div style="max-width:700px;margin:0 auto;">
+          <h2 style="font-size:2.25rem;font-weight:800;margin:0 0 1rem;">{{ d.title }}</h2>
+          {% if d.description %}
+            <p style="font-size:1.1rem;opacity:.85;margin:0 0 2.25rem;line-height:1.7;">
+              {{ d.description }}
+            </p>
+          {% endif %}
+          <a href="{{ d.button_url|default('#') }}"
+             style="display:inline-block;background:{{ btn_bg }};color:{{ btn_fg }};padding:14px 40px;border-radius:8px;text-decoration:none;font-weight:700;font-size:1.05rem;">
+            {{ d.button_text }}
+          </a>
+        </div>
+      </section>
+
+    {# ── FEATURES ──────────────────────────────────────────────── #}
+    {% elseif component.type == 'features' %}
+      <section style="padding:64px 24px;background:#fff;">
+        <div style="max-width:1100px;margin:0 auto;">
+          {% if d.title %}
+            <h2 style="font-size:2rem;font-weight:700;text-align:center;margin:0 0 3rem;color:#1a1a2e;">
+              {{ d.title }}
+            </h2>
+          {% endif %}
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2.5rem;">
+            {% for feat in d.features|default([]) %}
+              <div style="display:flex;gap:1.25rem;align-items:flex-start;">
+                <div style="font-size:2.5rem;flex-shrink:0;line-height:1;">
+                  {{ feat.icon|default('✨') }}
+                </div>
+                <div>
+                  <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 .4rem;color:#1a1a2e;">
+                    {{ feat.title }}
+                  </h3>
+                  <p style="color:#6b7280;line-height:1.7;margin:0;">
+                    {{ feat.description }}
+                  </p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+    {# ── TESTIMONIALS ──────────────────────────────────────────── #}
+    {% elseif component.type == 'testimonials' %}
+      <section style="padding:64px 24px;background:#f8f9fa;">
+        <div style="max-width:1100px;margin:0 auto;">
+          {% if d.title %}
+            <h2 style="font-size:2rem;font-weight:700;text-align:center;margin:0 0 3rem;color:#1a1a2e;">
+              {{ d.title }}
+            </h2>
+          {% endif %}
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;">
+            {% for item in d.items|default([]) %}
+              <div style="background:#fff;border-radius:14px;padding:2rem;box-shadow:0 2px 18px rgba(0,0,0,.06);">
+                <p style="font-style:italic;color:#374151;line-height:1.75;margin:0 0 1.5rem;font-size:1.05rem;">
+                  "{{ item.quote }}"
+                </p>
+                <div style="display:flex;align-items:center;gap:.9rem;">
+                  <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#e94560,#0f3460);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem;flex-shrink:0;">
+                    {{ item.author|slice(0,1)|upper }}
+                  </div>
+                  <div>
+                    <div style="font-weight:700;color:#1a1a2e;font-size:.95rem;">{{ item.author }}</div>
+                    <div style="font-size:.825rem;color:#9ca3af;">
+                      {{ item.role }}{% if item.company %}, {{ item.company }}{% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+    {% endif %}
+  {% endfor %}
+
+</div>

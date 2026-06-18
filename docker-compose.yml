@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - canvas_net
+
+  drupal:
+    build: ./drupal
+    ports:
+      - "8080:80"
+    environment:
+      DRUPAL_DB_HOST: db
+      DRUPAL_DB_NAME: drupal
+      DRUPAL_DB_USER: drupal
+      DRUPAL_DB_PASSWORD: drupal
+      DRUPAL_ADMIN_USER: admin
+      DRUPAL_ADMIN_PASSWORD: admin123
+      DRUPAL_SITE_NAME: DrupalCanvas
+    volumes:
+      - drupal_files:/var/www/html/web/sites/default/files
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - canvas_net
+
+  ai-bridge:
+    build: ./ai-bridge
+    ports:
+      - "3000:3000"
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      DRUPAL_URL: http://drupal
+      DRUPAL_USER: admin
+      DRUPAL_PASSWORD: admin123
+      PORT: 3000
+    depends_on:
+      - drupal
+    networks:
+      - canvas_net
+
+networks:
+  canvas_net:
+
+volumes:
+  db_data:
+  drupal_files:

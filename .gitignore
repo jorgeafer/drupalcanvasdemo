@@ -1,0 +1,13 @@
+# Environment variables (never commit secrets)
+.env
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Docker volumes (if mounted locally)
+drupal-files/
+
+# OS
+.DS_Store
+Thumbs.db

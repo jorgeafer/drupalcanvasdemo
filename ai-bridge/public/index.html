@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DrupalCanvas AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">🎨</span>
+          <span class="logo-text">DrupalCanvas</span>
+        </div>
+        <p class="logo-sub">AI Page Builder</p>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>What I can build</h3>
+        <ul class="component-list">
+          <li>🦸 Hero banner</li>
+          <li>📝 Text block</li>
+          <li>🃏 Card grid</li>
+          <li>📣 Call to action</li>
+          <li>⚡ Features list</li>
+          <li>💬 Testimonials</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Examples</h3>
+        <div class="examples">
+          <button class="example-btn" data-text="I want a landing page for a SaaS product called 'FlowDesk' – a project management tool for remote teams.">SaaS Landing Page</button>
+          <button class="example-btn" data-text="Crea una página de inicio para una agencia de diseño llamada 'Pixel Studio'.">Agency Home (ES)</button>
+          <button class="example-btn" data-text="I need a portfolio page for a freelance photographer named Alex Rivera.">Photographer Portfolio</button>
+          <button class="example-btn" data-text="Build a product page for an online course platform called 'LearnFlow'.">Course Platform</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="reset-btn" class="reset-btn">↺ New conversation</button>
+      </div>
+    </aside>
+
+    <!-- Main chat area -->
+    <main class="chat-area">
+      <div class="chat-header">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">Connecting...</span>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="message assistant">
+          <div class="message-avatar">AI</div>
+          <div class="message-bubble">
+            <p>Hello! I'm the DrupalCanvas AI assistant. 👋</p>
+            <p>Describe the page you want to create and I'll build it for you in Drupal using predefined visual components.</p>
+            <p><em>You can type in English or Spanish!</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div id="tool-indicator" class="tool-indicator hidden">
+          <span class="spinner"></span>
+          <span id="tool-text">Creating page in Drupal...</span>
+        </div>
+        <div class="input-row">
+          <textarea
+            id="user-input"
+            placeholder="Describe the page you want to create..."
+            rows="1"
+            autofocus
+          ></textarea>
+          <button id="send-btn" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Page preview panel -->
+    <aside class="preview-panel" id="preview-panel">
+      <div class="preview-header">
+        <h3>Page Preview</h3>
+        <a id="preview-link" href="#" target="_blank" class="preview-open-btn hidden">
+          Open in Drupal ↗
+        </a>
+      </div>
+      <div class="preview-placeholder" id="preview-placeholder">
+        <div class="preview-icon">🖼️</div>
+        <p>Your generated page will appear here.</p>
+      </div>
+      <iframe id="preview-iframe" class="hidden" title="Page preview"></iframe>
+    </aside>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>

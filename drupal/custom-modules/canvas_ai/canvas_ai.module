@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Canvas AI – AI-powered component-based page builder for Drupal.
+ */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_install().
+ *
+ * Creates the canvas_page content type and its field_canvas_data field.
+ */
+function canvas_ai_install() {
+  // Create content type.
+  if (!NodeType::load('canvas_page')) {
+    NodeType::create([
+      'type'              => 'canvas_page',
+      'name'              => 'Canvas Page',
+      'description'       => 'AI-generated pages composed of visual components.',
+      'new_revision'      => FALSE,
+      'display_submitted' => FALSE,
+    ])->save();
+  }
+
+  // Create field storage (shared across bundles).
+  if (!FieldStorageConfig::loadByName('node', 'field_canvas_data')) {
+    FieldStorageConfig::create([
+      'field_name'  => 'field_canvas_data',
+      'entity_type' => 'node',
+      'type'        => 'text_long',
+      'cardinality' => 1,
+    ])->save();
+  }
+
+  // Attach field to the canvas_page bundle.
+  if (!FieldConfig::loadByName('node', 'canvas_page', 'field_canvas_data')) {
+    FieldConfig::create([
+      'field_name'  => 'field_canvas_data',
+      'entity_type' => 'node',
+      'bundle'      => 'canvas_page',
+      'label'       => 'Canvas Components (JSON)',
+      'required'    => FALSE,
+    ])->save();
+  }
+
+  drupal_flush_all_caches();
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Registers the canvas_page_node theme hook used in hook_node_view().
+ */
+function canvas_ai_theme($existing, $type, $theme, $path) {
+  return [
+    'canvas_page_node' => [
+      'variables' => [
+        'components' => [],
+        'node_title' => '',
+      ],
+      'template' => 'canvas-page-node',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_node_view().
+ *
+ * Replaces the default node render with our component renderer for canvas_page.
+ */
+function canvas_ai_node_view(array &$build, EntityInterface $node, EntityViewDisplayInterface $display, $view_mode) {
+  if ($node->bundle() !== 'canvas_page' || $view_mode !== 'full') {
+    return;
+  }
+
+  $raw = $node->hasField('field_canvas_data')
+    ? $node->get('field_canvas_data')->value
+    : NULL;
+
+  if (empty($raw)) {
+    return;
+  }
+
+  $components = json_decode($raw, TRUE);
+  if (!is_array($components)) {
+    return;
+  }
+
+  // Clear out every default field render and replace with our template.
+  foreach (array_keys($build) as $key) {
+    if (strpos($key, '#') !== 0) {
+      unset($build[$key]);
+    }
+  }
+
+  $build['canvas'] = [
+    '#theme'       => 'canvas_page_node',
+    '#components'  => $components,
+    '#node_title'  => $node->label(),
+    '#cache'       => ['max-age' => 0],
+  ];
+}
