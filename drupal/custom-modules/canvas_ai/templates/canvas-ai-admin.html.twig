@@ -1,0 +1,268 @@
+{#
+  canvas-ai-admin.html.twig
+  Admin page for the Canvas AI chat interface, rendered inside Drupal's admin theme.
+#}
+
+{# Inline styles keep this self-contained without a separate CSS file. #}
+<style>
+  .cai-wrap {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    height: calc(100vh - 120px);
+    min-height: 500px;
+    border: 1px solid #d3d9e3;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: inherit;
+  }
+
+  /* ── Sidebar ── */
+  .cai-sidebar {
+    background: #1a1a2e;
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 20px 16px;
+  }
+  .cai-sidebar h3 {
+    color: #64748b;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  .cai-sidebar ul {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+  }
+  .cai-sidebar li {
+    font-size: .85rem;
+    margin-bottom: 6px;
+    color: #cbd5e1;
+  }
+  .cai-examples { display: flex; flex-direction: column; gap: 7px; }
+  .cai-example {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 6px;
+    color: #cbd5e1;
+    cursor: pointer;
+    font-size: .8rem;
+    padding: 7px 10px;
+    text-align: left;
+    transition: background .15s;
+  }
+  .cai-example:hover { background: rgba(233,69,96,.3); border-color: #e94560; color: #fff; }
+  .cai-reset-wrap { margin-top: auto; padding-top: 16px; }
+  #cai-reset {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 6px;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: .82rem;
+    padding: 8px 12px;
+    width: 100%;
+  }
+  #cai-reset:hover { background: rgba(233,69,96,.2); color: #fff; }
+
+  /* ── Chat area ── */
+  .cai-main {
+    display: flex;
+    flex-direction: column;
+    background: #f4f6fb;
+  }
+  .cai-header {
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid #d3d9e3;
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+  .cai-dot {
+    border-radius: 50%;
+    height: 9px;
+    width: 9px;
+    flex-shrink: 0;
+    background: #94a3b8;
+    transition: background .3s;
+  }
+  .cai-dot--connected { background: #22c55e; }
+  .cai-dot--thinking  { background: #f59e0b; animation: cai-pulse 1s infinite; }
+  .cai-dot--error     { background: #ef4444; }
+  @keyframes cai-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  #cai-status-text { color: #6b7280; font-size: .82rem; flex: 1; }
+
+  /* Messages */
+  #cai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cai-msg {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .cai-msg--user { flex-direction: row-reverse; }
+  .cai-avatar {
+    background: #0f3460;
+    border-radius: 50%;
+    color: #fff;
+    flex-shrink: 0;
+    font-size: .68rem;
+    font-weight: 700;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    width: 32px;
+  }
+  .cai-msg--user .cai-avatar { background: #e94560; }
+  .cai-bubble {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0,0,0,.07);
+    font-size: .9rem;
+    line-height: 1.65;
+    max-width: 78%;
+    padding: 10px 14px;
+  }
+  .cai-msg--user .cai-bubble { background: #1a1a2e; color: #e2e8f0; }
+  .cai-bubble p { margin: 0 0 .4rem; }
+  .cai-bubble p:last-child { margin-bottom: 0; }
+  .cai-bubble--streaming::after {
+    content: '▍';
+    animation: cai-blink .8s step-start infinite;
+  }
+  @keyframes cai-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Page created card */
+  .cai-page-card {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    font-size: .85rem;
+    margin-top: 10px;
+    padding: 10px 14px;
+    line-height: 1.8;
+  }
+  .cai-page-card a { color: #15803d; font-weight: 600; text-decoration: none; }
+  .cai-page-card a:hover { text-decoration: underline; }
+
+  /* Tool banner */
+  #cai-tool-banner {
+    background: #fffbeb;
+    border-top: 1px solid #fde68a;
+    color: #92400e;
+    font-size: .83rem;
+    padding: 8px 16px;
+  }
+
+  /* Input area */
+  .cai-input-area {
+    background: #fff;
+    border-top: 1px solid #d3d9e3;
+    padding: 12px 14px;
+  }
+  .cai-input-row { display: flex; gap: 8px; align-items: flex-end; }
+  #cai-input {
+    background: #f4f6fb;
+    border: 1.5px solid #d3d9e3;
+    border-radius: 8px;
+    color: #1a1a2e;
+    flex: 1;
+    font-family: inherit;
+    font-size: .9rem;
+    line-height: 1.5;
+    max-height: 130px;
+    outline: none;
+    padding: 9px 13px;
+    resize: none;
+    transition: border-color .15s;
+  }
+  #cai-input:focus { border-color: #0f3460; }
+  #cai-send {
+    background: #e94560;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+  #cai-send:hover:not(:disabled) { background: #c73652; }
+  #cai-send:disabled { background: #d1d5db; cursor: not-allowed; }
+</style>
+
+<div id="canvas-ai-app" class="cai-wrap">
+
+  {# ── Sidebar ── #}
+  <aside class="cai-sidebar">
+    <h3>Components</h3>
+    <ul>
+      <li>🦸 Hero banner</li>
+      <li>📝 Text block</li>
+      <li>🃏 Card grid</li>
+      <li>📣 Call to action</li>
+      <li>⚡ Features list</li>
+      <li>💬 Testimonials</li>
+    </ul>
+
+    <h3>Examples</h3>
+    <div class="cai-examples">
+      <button class="cai-example" data-text="I want a landing page for a SaaS product called 'FlowDesk' – a project management tool for remote teams.">SaaS landing page</button>
+      <button class="cai-example" data-text="Crea una página de inicio para una agencia de diseño llamada 'Pixel Studio'.">Agencia de diseño (ES)</button>
+      <button class="cai-example" data-text="Build a product page for an online course platform called 'LearnFlow'.">Course platform</button>
+    </div>
+
+    <div class="cai-reset-wrap">
+      <button id="cai-reset">↺ New conversation</button>
+    </div>
+  </aside>
+
+  {# ── Main chat ── #}
+  <main class="cai-main">
+    <div class="cai-header">
+      <span id="cai-status-dot" class="cai-dot"></span>
+      <span id="cai-status-text">Connecting to AI Bridge…</span>
+    </div>
+
+    <div id="cai-messages">
+      <div class="cai-msg cai-msg--assistant">
+        <div class="cai-avatar">AI</div>
+        <div class="cai-bubble">
+          <p>Hello! I'm the Canvas AI assistant. 👋</p>
+          <p>Describe the page you want to create and I'll build it here in Drupal using predefined visual components.</p>
+          <p><em>You can type in English or Spanish.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="cai-tool-banner" hidden></div>
+
+    <div class="cai-input-area">
+      <div class="cai-input-row">
+        <textarea id="cai-input" rows="1" placeholder="Describe the page you want to create…" disabled></textarea>
+        <button id="cai-send" disabled aria-label="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+
+</div>

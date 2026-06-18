@@ -1,0 +1,13 @@
+admin_chat:
+  version: VERSION
+  js:
+    # Socket.io client – must match the server version in ai-bridge/package.json
+    https://cdn.socket.io/4.7.5/socket.io.min.js:
+      type: external
+      minified: true
+    js/canvas-admin-chat.js:
+      weight: 10
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once

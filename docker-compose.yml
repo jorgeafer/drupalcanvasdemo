@@ -30,6 +30,9 @@ services:
       DRUPAL_ADMIN_USER: admin
       DRUPAL_ADMIN_PASSWORD: admin123
       DRUPAL_SITE_NAME: DrupalCanvas
+      # Lets the PHP controller auto-detect the Codespaces bridge URL.
+      CODESPACE_NAME: ${CODESPACE_NAME:-}
+      CANVAS_BRIDGE_URL: ${CANVAS_BRIDGE_URL:-http://localhost:3000}
     volumes:
       - drupal_files:/var/www/html/web/sites/default/files
     depends_on:

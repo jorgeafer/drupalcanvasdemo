@@ -54,17 +54,46 @@ function canvas_ai_install() {
 
 /**
  * Implements hook_theme().
- *
- * Registers the canvas_page_node theme hook used in hook_node_view().
  */
 function canvas_ai_theme($existing, $type, $theme, $path) {
   return [
+    // Front-end component renderer for canvas_page nodes.
     'canvas_page_node' => [
       'variables' => [
         'components' => [],
         'node_title' => '',
       ],
       'template' => 'canvas-page-node',
+    ],
+    // Admin chat page rendered inside Drupal's admin theme.
+    'canvas_ai_admin' => [
+      'variables' => [],
+      'template'  => 'canvas-ai-admin',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_toolbar().
+ *
+ * Adds a "Canvas AI" shortcut to Drupal's admin toolbar.
+ */
+function canvas_ai_toolbar() {
+  return [
+    'canvas_ai' => [
+      '#type'   => 'toolbar_item',
+      '#weight' => 125,
+      'tab'     => [
+        '#type'       => 'link',
+        '#title'      => t('Canvas AI'),
+        '#url'        => \Drupal\Core\Url::fromRoute('canvas_ai.admin'),
+        '#attributes' => [
+          'title' => t('Generate pages with AI'),
+          'class' => ['toolbar-icon'],
+          'style' => 'background-image:none',
+        ],
+      ],
+      '#cache' => ['contexts' => ['user.permissions']],
     ],
   ];
 }

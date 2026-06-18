@@ -1,0 +1,6 @@
+canvas_ai.admin:
+  title: 'Canvas AI'
+  description: 'Generate Drupal pages from a conversational AI chat.'
+  route_name: canvas_ai.admin
+  parent: system.admin_content
+  weight: 50

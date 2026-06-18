@@ -1,0 +1,7 @@
+canvas_ai.admin:
+  path: '/admin/canvas-ai'
+  defaults:
+    _controller: '\Drupal\canvas_ai\Controller\CanvasAiController::adminPage'
+    _title: 'Canvas AI – Page Builder'
+  requirements:
+    _permission: 'access administration pages'
