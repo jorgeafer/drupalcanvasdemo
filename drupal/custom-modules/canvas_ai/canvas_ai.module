@@ -14,9 +14,17 @@ use Drupal\node\Entity\NodeType;
 /**
  * Implements hook_install().
  *
- * Creates the canvas_page content type and its field_canvas_data field.
+ * Creates the canvas_page content type only when the native Drupal Canvas
+ * module is NOT installed. With Drupal CMS 2.0 + Canvas, the content type
+ * is managed by Canvas itself; this custom type is only for vanilla Drupal.
  */
 function canvas_ai_install() {
+  // Skip custom content type when native Canvas module is present.
+  if (\Drupal::moduleHandler()->moduleExists('canvas')) {
+    drupal_flush_all_caches();
+    return;
+  }
+
   // Create content type.
   if (!NodeType::load('canvas_page')) {
     NodeType::create([

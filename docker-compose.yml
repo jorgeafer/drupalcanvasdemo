@@ -30,7 +30,8 @@ services:
       DRUPAL_ADMIN_USER: admin
       DRUPAL_ADMIN_PASSWORD: admin123
       DRUPAL_SITE_NAME: DrupalCanvas
-      # Lets the PHP controller auto-detect the Codespaces bridge URL.
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      # Auto-detects the Codespaces bridge URL for the PHP admin chat controller.
       CODESPACE_NAME: ${CODESPACE_NAME:-}
       CANVAS_BRIDGE_URL: ${CANVAS_BRIDGE_URL:-http://localhost:3000}
     volumes:
