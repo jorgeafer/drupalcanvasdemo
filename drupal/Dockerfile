@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.3-apache-bookworm
 
 # ── System dependencies ────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libwebp-dev \
         libzip-dev \
         libpq-dev \
+        libonig-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j"$(nproc)" \
         gd \
